@@ -1,4 +1,4 @@
-package com.rain.rpc.rpcgrpcdemo;
+package com.rain.rpc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
