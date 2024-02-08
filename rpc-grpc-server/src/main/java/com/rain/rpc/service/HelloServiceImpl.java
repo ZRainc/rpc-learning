@@ -46,4 +46,26 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         responseObserver.onNext(helloResponse1);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void c2ss(HelloProto.HelloRequest request, StreamObserver<HelloProto.HelloResponse> responseObserver) {
+        // 1. 接收client的请求参数
+        String name = request.getName();
+        // 2. 做业务处理
+        System.out.println("name = " + name);
+        // 3. 根据业务处理的结果，提供响应
+        for (int i = 0; i < 9; i++) {
+            HelloProto.HelloResponse.Builder builder = HelloProto.HelloResponse.newBuilder();
+            builder.setResult("处理的结果 " + i);
+            HelloProto.HelloResponse helloResponse = builder.build();
+
+            responseObserver.onNext(helloResponse);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        responseObserver.onCompleted();
+    }
 }
