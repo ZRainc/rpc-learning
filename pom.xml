@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>rpc-grpc-demo</module>
         <module>rpc-grpc-api</module>
         <module>rpc-grpc-client</module>
         <module>rpc-grpc-server</module>
