@@ -97,4 +97,26 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
             }
         };
     }
+
+    @Override
+    public StreamObserver<HelloProto.HelloRequest> cs2ss(StreamObserver<HelloProto.HelloResponse> responseObserver) {
+        return new StreamObserver<HelloProto.HelloRequest>() {
+            @Override
+            public void onNext(HelloProto.HelloRequest helloRequest) {
+                System.out.println("接收client 提交的数据" + helloRequest.getName());
+                responseObserver.onNext(HelloProto.HelloResponse.newBuilder().setResult("response " + helloRequest.getName() + " result ").build());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("接收到了所有的请求消息。。。。");
+                responseObserver.onCompleted();
+            }
+        };
+    }
 }
