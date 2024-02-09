@@ -68,4 +68,33 @@ public class HelloServiceImpl extends HelloServiceGrpc.HelloServiceImplBase {
         }
         responseObserver.onCompleted();
     }
+
+    /*
+    * 客户端流式RPC
+    * */
+    @Override
+    public StreamObserver<HelloProto.HelloRequest> cs2s(StreamObserver<HelloProto.HelloResponse> responseObserver) {
+        return new StreamObserver<HelloProto.HelloRequest>() {
+            @Override
+            public void onNext(HelloProto.HelloRequest helloRequest) {
+                System.out.println("接收到了client发送一条消息 " + helloRequest.getName());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("Client的所有消息 都发送到了 服务端 ...");
+                // 提供响应：响应目的，当接收了全部client提交的数据，并处理后，提供响应
+                HelloProto.HelloResponse.Builder builder = HelloProto.HelloResponse.newBuilder();
+                builder.setResult("this is result");
+                HelloProto.HelloResponse helloResponse = builder.build();
+                responseObserver.onNext(helloResponse);
+                responseObserver.onCompleted();
+            }
+        };
+    }
 }
