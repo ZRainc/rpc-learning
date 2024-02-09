@@ -4,6 +4,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+import java.util.concurrent.TimeUnit;
+
 // 异步的方式处理消息
 
 public class GrpcClient4 {
@@ -36,6 +38,8 @@ public class GrpcClient4 {
                     System.out.println("服务端响应结束，后续可以根据需要 在这里统一处理服务端响应的所有内容");
                 }
             });
+
+            managedChannel.awaitTermination(12, TimeUnit.SECONDS);
         } catch (Exception e) {
             throw new RuntimeException();
         } finally {
